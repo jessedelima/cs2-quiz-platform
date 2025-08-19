@@ -1,0 +1,66 @@
+[17:57, 19/08/2025] Jessé de Lima: Apresentação / Conceito
+
+Uma presença na Internet no campo de questionários (Quem quer ser um milionário no Counterstrike)
+
+Os jogadores podem se registrar no site via Steam. Eles têm a opção de comprar moedas na forma de dinheiro real, criptomoeda ou skins.
+Assim que o lobby estiver cheio (por exemplo, no máximo 10 jogadores), todos receberão 10 perguntas sobre o jogo Counterstrike. Quem tiver respondido corretamente o maior número de perguntas em um determinado período de tempo recebe as respectivas apostas dos outros jogadores.
+O operador do site recebe uma determinada porcentagem da aposta para cada lobby jogado.
+
+Traduzido com a versão gratuita do tradutor - DeepL.com
+[17:57, 19/08/2025] Jessé de Lima: Visão geral técnica: Pagamento com base na skin para a plataforma de quiz CS2
+Para permitir que os jogadores paguem pelo acesso ao quiz usando skins do Counter-Strike 2, a plataforma deve ser integrada ao Steam, que lida com todos os inventários de itens e trocas entre usuários.
+
+Abaixo está um detalhamento de como esse processo funcionará tecnicamente:
+
+✅ 1. Criação de uma conta Steam Bot
+Configuraremos uma conta Steam separada que funcionará como um bot. Essa conta é responsável por:
+
+Receber skins dos jogadores.
+
+Enviar skins de volta (se as recompensas forem implementadas).
+
+Gerenciar o inventário de itens da plataforma.
+
+Essa conta de bot deve ter:
+
+Steam Guard ativado (ativo por pelo menos 15 dias).
+
+Permissões de comércio desbloqueadas.
+
+🔄 2. Integração com a API do Steam
+Nosso sistema de backend se comunicará com o Steam por meio de suas APIs oficiais. Isso nos permite:
+
+Criar automaticamente ofertas de troca para os jogadores.
+
+Acompanhar o status das trocas (pendentes, aceitas, recusadas).
+
+Recuperar e validar os itens recebidos e seu valor de mercado estimado.
+
+Usaremos bibliotecas especializadas para automação de trocas no Steam, juntamente com uma chave de API do Steam.
+
+Traduzido com a versão gratuita do tradutor - DeepL.com
+[17:57, 19/08/2025] Jessé de Lima: 3. Fluxo de trabalho de pagamento por skin
+Veja como o sistema de pagamento por skin funcionará:
+
+O jogador visita o site e opta por participar de um teste.
+
+Ele seleciona a opção de pagar com uma skin.
+
+Nosso sistema envia uma oferta de troca no Steam do bot para o jogador, solicitando uma skin com um valor mínimo predefinido.
+
+O jogador aceita a troca no Steam.
+
+Quando a troca é concluída, nosso backend valida o valor da skin usando dados de preços do Steam Market ou APIs de terceiros (como CS.Money, LootFarm ou Bitskins).
+
+Se o valor for suficiente, o acesso ao questionário será concedido.
+
+Validação do valor da skin
+Como cada skin tem um valor de mercado, o sistema verificará automaticamente se o item enviado atende ao requisito de valor. Isso garante a equidade e evita abusos.
+
+Considerações legais
+A Valve (a empresa por trás do Steam) proíbe estritamente o uso de skins para jogos de azar. No entanto, como a nossa plataforma se baseia em conhecimento e habilidade (e não em azar ou sorte), ela se enquadra em uma categoria legal mais segura.
+
+Dito isso, ainda recomendamos uma análise jurídica antes do lançamento para garantir total conformidade.
+
+Conclusão
+Com essa estrutura, podemos criar uma plataforma de quiz envolvente em que os usuários podem pagar usando skins CS2, com integração segura, controle total sobre o inventário e automação perfeita por meio do Steam.

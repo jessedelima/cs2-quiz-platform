@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz CS2 - Teste seus conhecimentos sobre Counter-Strike 2</title>
+    <meta name="description" content="Quiz interativo sobre Counter-Strike 2. Teste seus conhecimentos sobre armas, mapas, estratégias e muito mais!">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🎯 Quiz CS2</div>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link" onclick="showWelcomeScreen()">Início</a></li>
+                    <li><a href="#" class="nav-link" onclick="showRanking()">Ranking</a></li>
+                    <li><a href="#" class="nav-link" onclick="showStatistics()">Estatísticas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Container Principal -->
+    <div class="container">
+        <!-- Tela de Boas-vindas -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <h1 class="welcome-title fade-in">Quiz Counter-Strike 2</h1>
+            <p class="welcome-subtitle fade-in">Teste seus conhecimentos sobre o jogo mais competitivo do mundo!</p>
+            
+            <div class="game-modes">
+                <div class="mode-card fade-in" onclick="startQuiz('facil')">
+                    <div class="mode-icon">🟢</div>
+                    <h3 class="mode-title">Modo Fácil</h3>
+                    <p class="mode-description">Perguntas básicas sobre CS2. Ideal para iniciantes.</p>
+                    <button class="btn btn-primary">Começar</button>
+                </div>
+                
+                <div class="mode-card fade-in" onclick="startQuiz('medio')">
+                    <div class="mode-icon">🟡</div>
+                    <h3 class="mode-title">Modo Médio</h3>
+                    <p class="mode-description">Desafios intermediários para jogadores experientes.</p>
+                    <button class="btn btn-primary">Começar</button>
+                </div>
+                
+                <div class="mode-card fade-in" onclick="startQuiz('dificil')">
+                    <div class="mode-icon">🔴</div>
+                    <h3 class="mode-title">Modo Difícil</h3>
+                    <p class="mode-description">Para verdadeiros especialistas em CS2.</p>
+                    <button class="btn btn-primary">Começar</button>
+                </div>
+                
+                <div class="mode-card fade-in" onclick="startQuiz('competitivo')">
+                    <div class="mode-icon">💎</div>
+                    <h3 class="mode-title">Modo Competitivo</h3>
+                    <p class="mode-description">Perguntas sobre estratégias profissionais e meta atual.</p>
+                    <button class="btn btn-primary">Começar</button>
+                </div>
+                
+                <div class="mode-card fade-in" onclick="openMultiplayer()">
+                    <div class="mode-icon">🎮</div>
+                    <h3 class="mode-title">Modo Multiplayer</h3>
+                    <p class="mode-description">Jogue com amigos localmente. Até 4 jogadores!</p>
+                    <button class="btn btn-primary">Jogar</button>
+                </div>
+            </div>
+
+            <div class="player-setup">
+                <h3>Configurações do Jogador</h3>
+                <div style="margin: 2rem 0;">
+                    <label for="playerName" style="display: block; margin-bottom: 0.5rem;">Nome do Jogador:</label>
+                    <input type="text" id="playerName" placeholder="Digite seu nome" 
+                           style="padding: 0.75rem; border-radius: 0.5rem; border: 2px solid var(--cs2-orange); 
+                                  background: rgba(255,255,255,0.1); color: white; font-size: 1rem; width: 300px; max-width: 100%;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Container do Quiz -->
+        <div id="quizContainer" class="quiz-container hidden">
+            <!-- Header do Quiz -->
+            <div class="quiz-header">
+                <div class="quiz-progress">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span>Progresso</span>
+                        <span id="questionCounter">1/10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 10%;"></div>
+                    </div>
+                </div>
+                
+                <div class="quiz-stats">
+                    <div class="stat-item">
+                        <span id="currentScore" class="stat-value">0</span>
+                        <span class="stat-label">Pontos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span id="correctAnswers" class="stat-value">0</span>
+                        <span class="stat-label">Acertos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span id="currentStreak" class="stat-value">0</span>
+                        <span class="stat-label">Sequência</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="timer">
+                <div id="timerCircle" class="timer-circle">
+                    <span id="timerValue" class="timer-value">30</span>
+                </div>
+                <p>Tempo restante</p>
+            </div>
+
+            <!-- Pergunta -->
+            <div id="questionCard" class="question-card">
+                <span id="questionCategory" class="question-category">Categoria</span>
+                <h2 id="questionText" class="question-text">Carregando pergunta...</h2>
+                <img id="questionImage" class="question-image hidden" src="" alt="Imagem da pergunta">
+                
+                <div id="answersGrid" class="answers-grid">
+                    <!-- Opções de resposta serão inseridas aqui via JavaScript -->
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="nextButton" class="btn btn-primary hidden" onclick="nextQuestion()">
+                        Próxima Pergunta
+                    </button>
+                    <button id="finishButton" class="btn btn-primary hidden" onclick="finishQuiz()">
+                        Finalizar Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Resultados -->
+        <div id="resultsScreen" class="results-screen hidden">
+            <div class="results-card">
+                <h2 class="results-title">Quiz Finalizado!</h2>
+                <div id="finalScore" class="results-score">0/10</div>
+                
+                <div class="results-stats">
+                    <div class="result-stat">
+                        <h4>Pontuação Total</h4>
+                        <p id="totalPoints">0 pontos</p>
+                    </div>
+                    <div class="result-stat">
+                        <h4>Precisão</h4>
+                        <p id="accuracy">0%</p>
+                    </div>
+                    <div class="result-stat">
+                        <h4>Tempo Médio</h4>
+                        <p id="averageTime">0s</p>
+                    </div>
+                    <div class="result-stat">
+                        <h4>Melhor Sequência</h4>
+                        <p id="bestStreak">0</p>
+                    </div>
+                </div>
+
+                <div id="performanceMessage" style="margin: 2rem 0; font-size: 1.1rem;"></div>
+                
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="restartQuiz()">Jogar Novamente</button>
+                    <button class="btn btn-secondary" onclick="showWelcomeScreen()">Menu Principal</button>
+                    <button class="btn btn-secondary" onclick="shareResults()">Compartilhar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tela de Ranking -->
+        <div id="rankingScreen" class="hidden">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--cs2-orange);">🏆 Ranking dos Melhores</h2>
+            
+            <div class="ranking-table">
+                <div class="ranking-header">
+                    <div class="ranking-row">
+                        <div>Pos.</div>
+                        <div>Jogador</div>
+                        <div>Pontos</div>
+                        <div>Precisão</div>
+                    </div>
+                </div>
+                <div id="rankingList">
+                    <!-- Ranking será preenchido via JavaScript -->
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
+            </div>
+        </div>
+
+        <!-- Tela de Estatísticas -->
+        <div id="statisticsScreen" class="hidden">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--cs2-orange);">📊 Suas Estatísticas</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                <div class="result-stat">
+                    <h4>Total de Jogos</h4>
+                    <p id="totalGames">0</p>
+                </div>
+                <div class="result-stat">
+                    <h4>Melhor Pontuação</h4>
+                    <p id="bestScore">0</p>
+                </div>
+                <div class="result-stat">
+                    <h4>Precisão Geral</h4>
+                    <p id="overallAccuracy">0%</p>
+                </div>
+                <div class="result-stat">
+                    <h4>Categoria Favorita</h4>
+                    <p id="favoriteCategory">-</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-secondary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
+                <button class="btn btn-secondary" onclick="resetStatistics()" style="margin-left: 1rem;">Resetar Dados</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+    <div id="settingsModal" class="hidden" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+                                                  background: rgba(0,0,0,0.8); display: flex; align-items: center; 
+                                                  justify-content: center; z-index: 2000;">
+        <div style="background: var(--cs2-dark); padding: 2rem; border-radius: 1rem; max-width: 500px; width: 90%;">
+            <h3 style="margin-bottom: 1.5rem; color: var(--cs2-orange);">⚙️ Configurações</h3>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Volume dos Efeitos:</label>
+                <input type="range" id="volumeSlider" min="0" max="100" value="50" 
+                       style="width: 100%; accent-color: var(--cs2-orange);">
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="soundEffects" checked>
+                    Efeitos Sonoros
+                </label>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                    <input type="checkbox" id="animations" checked>
+                    Animações
+                </label>
+            </div>
+            
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="closeSettings()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/questions.js"></script>
+    <script src="js/quiz.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/multiplayer.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
