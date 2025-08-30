@@ -622,7 +622,6 @@ class CS2Quiz {
         }
     }
 }
-
 // Instância global do quiz
 const cs2Quiz = new CS2Quiz();
 

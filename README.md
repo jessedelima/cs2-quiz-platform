@@ -1,105 +1,206 @@
-# 🎯 Quiz CS2 - Sistema Completo de Quiz sobre Counter-Strike 2
+# 🎯 Quiz Counter-Strike
 
-Um sistema interativo e moderno de quiz sobre Counter-Strike 2, desenvolvido em HTML, CSS e JavaScript puro, com funcionalidades avançadas e design responsivo.
+Uma plataforma interativa de quiz e apostas sobre Counter-Strike 2, onde jogadores podem testar seus conhecimentos, competir entre si e ganhar recompensas reais.
+
+## 📝 Introdução / Conceito
+
+Um site na área de quiz totalmente focado no universo do Counter-Strike 2. Os jogadores podem se registrar no site via Steam e participar de lobbies competitivos onde apostam moedas para testar seus conhecimentos sobre o jogo.
 
 ## 🚀 Funcionalidades Principais
 
-### 🎮 Modos de Jogo
-- **Modo Fácil**: Perguntas básicas sobre CS2, ideal para iniciantes
-- **Modo Médio**: Desafios intermediários para jogadores experientes  
-- **Modo Difícil**: Para verdadeiros especialistas em CS2
-- **Modo Competitivo**: Perguntas sobre estratégias profissionais e meta atual
-- **Modo Multiplayer**: Jogue com até 4 amigos localmente (turnos ou simultâneo)
+### 👤 Sistema de Autenticação
+- **Login via Steam**: Integração completa com a API da Steam
+- **Perfil do Jogador**: Estatísticas, histórico de partidas e saldo de moedas
+- **Ranking Global**: Classificação dos melhores jogadores
 
-### 📊 Sistema de Pontuação Avançado
-- Pontuação baseada na dificuldade da pergunta
-- Bônus por tempo de resposta
-- Bônus por sequência de acertos
-- Sistema de conquistas e medalhas
-- Ranking global de jogadores
+### 💰 Sistema de Moedas e Apostas
+- **Múltiplas Formas de Pagamento**:
+  - Dinheiro real (PayPal, cartão de crédito)
+  - Criptomoedas (Bitcoin, Ethereum)
+  - Skins de CS2 (integração com inventário Steam)
+- **Sistema de Apostas**: Jogadores apostam moedas para entrar em lobbies
+- **Comissão do Operador**: Porcentagem das apostas retida pela plataforma
 
-### ⏱️ Timer Dinâmico
-- Timer adaptativo baseado na dificuldade
-- Indicador visual circular com animações
-- Efeitos sonoros e visuais quando o tempo está acabando
+### 🎮 Sistema de Lobbies
+- **Criação de Lobbies**: Jogadores podem criar salas com diferentes valores de entrada
+- **Capacidade**: Até 10 jogadores por lobby
+- **Status em Tempo Real**: Visualização de lobbies disponíveis e em andamento
+- **Chat Integrado**: Comunicação entre jogadores no lobby
 
-### 🏆 Sistema de Estatísticas
-- Histórico completo de partidas
-- Estatísticas por categoria e dificuldade
-- Precisão geral e categoria favorita
-- Sistema de conquistas desbloqueáveis
-- Exportação/importação de dados
+### 📊 Sistema de Quiz
+- **10 Perguntas por Rodada**: Formato de quiz competitivo
+- **Timer por Pergunta**: Tempo limitado para responder
+- **Dificuldade Progressiva**: Perguntas ficam mais difíceis ao longo da rodada
+- **Alternativas**: 4 opções por pergunta, apenas uma correta
 
-### 🎨 Design Moderno
-- Interface inspirada no visual do CS2
-- Cores e gradientes temáticos
-- Animações suaves e responsivas
-- Compatível com dispositivos móveis
-- Modo escuro por padrão
+### 🏆 Sistema de Premiação
+- **Distribuição de Prêmios**: O jogador com mais acertos leva as apostas dos outros
+- **Desempate**: Em caso de empate, o tempo de resposta é considerado
+- **Retirada de Prêmios**: Conversão de moedas em dinheiro real, cripto ou skins
 
 ## 📁 Estrutura do Projeto
 
 ```
-quiz-cs2/
+cs2-quiz-platform/
 ├── index.html              # Página principal
 ├── css/
 │   └── style.css           # Estilos principais
 ├── js/
-│   ├── main.js            # Arquivo principal da aplicação
-│   ├── quiz.js            # Lógica do quiz
-│   ├── questions.js       # Banco de perguntas
-│   ├── storage.js         # Sistema de armazenamento
-│   └── multiplayer.js     # Modo multiplayer
-├── data/                  # Dados adicionais (futuro)
-├── img/                   # Imagens (futuro)
-└── README.md             # Documentação
+│   ├── main.js             # Arquivo principal da aplicação
+│   ├── quiz.js             # Lógica do quiz
+│   ├── multiplayer.js      # Sistema de lobbies e multiplayer
+│   ├── questions.js        # Banco de perguntas
+│   └── storage.js          # Gerenciamento de dados locais
+├── cs2-quiz-platform/
+│   ├── backend/
+│   │   ├── middleware/     # Middlewares do Express
+│   │   ├── models/         # Modelos de dados
+│   │   ├── routes/         # Rotas da API
+│   │   ├── server.js       # Servidor principal
+│   │   └── utils/          # Utilitários
+│   └── package.json        # Dependências do projeto
+├── assets/                 # Recursos estáticos
+│   ├── images/             # Imagens e ícones
+│   └── sounds/             # Efeitos sonoros
+├── DEPLOYMENT.md           # Guia de implantação em produção
+└── todo.md                 # Lista de tarefas do projeto
 ```
-
 ## 🎯 Banco de Perguntas
 
-O sistema inclui **40 perguntas** distribuídas em 4 níveis de dificuldade:
+O sistema inclui **100 perguntas** sobre Counter-Strike 2, organizadas em formato de quiz competitivo:
 
 ### Categorias Disponíveis:
-- **Armas**: AK-47, M4A4, AWP, pistolas, etc.
-- **Mapas**: Dust2, Mirage, Inferno, callouts, etc.
-- **Estratégia**: Táticas, economia, posicionamento
-- **Mecânicas**: Recoil, timing, movimento
-- **Pro Scene**: Jogadores profissionais, torneios
-- **Meta**: Estratégias atuais, formações
+- **Armas e Equipamentos**: Estatísticas, padrões de spray, dano, etc.
+- **Mapas e Callouts**: Localizações, estratégias específicas de mapas
+- **Estratégia e Economia**: Táticas de equipe, gerenciamento de economia
+- **Mecânicas de Jogo**: Movimento, recoil, granadas, wallbangs
+- **Pro Scene**: Times profissionais, jogadores, torneios
+- **História do CS**: Versões anteriores, atualizações importantes
+- **Meta Atual**: Estratégias populares, formações, tendências
 
-### Distribuição por Dificuldade:
-- **Fácil**: 10 perguntas (10 pontos cada)
-- **Médio**: 10 perguntas (15 pontos cada)
-- **Difícil**: 10 perguntas (20 pontos cada)
-- **Competitivo**: 10 perguntas (25 pontos cada)
+### Estrutura das Perguntas:
+- Cada pergunta possui 4 alternativas (A, B, C, D)
+- Apenas uma alternativa é correta
+- Dificuldade progressiva ao longo da rodada
+- Tempo limitado para resposta (30 segundos por pergunta)
 
 ## 🛠️ Tecnologias Utilizadas
 
-- **HTML5**: Estrutura semântica e acessível
-- **CSS3**: Flexbox, Grid, animações, variáveis CSS
-- **JavaScript ES6+**: Classes, modules, async/await
-- **LocalStorage**: Persistência de dados local
-- **Web Audio API**: Efeitos sonoros
-- **Responsive Design**: Mobile-first approach
+### Frontend
+- **HTML5/CSS3**: Estrutura semântica e design responsivo
+- **JavaScript ES6+**: Lógica do cliente e interatividade
+- **React.js**: Biblioteca para construção da interface
+- **Socket.io Client**: Comunicação em tempo real para lobbies
+- **Steam Web API**: Autenticação e integração com perfil Steam
+- **Web3.js**: Integração com carteiras de criptomoedas
+
+### Backend
+- **Node.js**: Ambiente de execução JavaScript
+- **Express**: Framework web para API RESTful
+- **MongoDB**: Banco de dados para perfis e histórico
+- **Socket.io**: Comunicação em tempo real para lobbies
+- **Passport.js**: Autenticação OAuth com Steam
+- **Stripe/PayPal API**: Processamento de pagamentos
+- **Crypto Payment Gateways**: Integração com criptomoedas
+
+### Segurança
+- **JWT**: Autenticação e autorização
+- **HTTPS**: Comunicação segura
+- **Helmet**: Proteção contra vulnerabilidades comuns
+- **Rate Limiting**: Proteção contra ataques de força bruta
+- **Validação de Dados**: Prevenção contra injeção e XSS
 
 ## 🎮 Como Jogar
 
-### Modo Single Player:
-1. Digite seu nome na tela inicial
-2. Escolha o nível de dificuldade
-3. Responda as 10 perguntas no tempo limite
-4. Veja seus resultados e estatísticas
+### Registro e Depósito:
+1. Faça login usando sua conta Steam
+2. Adicione moedas ao seu saldo através de:
+   - Pagamento com cartão de crédito/débito
+   - Transferência de criptomoedas
+   - Troca de skins de CS2
 
-### Modo Multiplayer:
-1. Clique em "Modo Multiplayer"
-2. Adicione de 2 a 4 jogadores
-3. Escolha entre modo "Por Turnos" ou "Simultâneo"
-4. Selecione a dificuldade
-5. Compitam pelas melhores pontuações!
+### Participando de um Quiz:
+1. Navegue até a seção de lobbies disponíveis
+2. Entre em um lobby existente ou crie um novo
+3. Defina o valor da aposta para criar um lobby
+4. Aguarde até que o lobby esteja cheio (máx. 10 jogadores)
+5. Responda às 10 perguntas no formato "Quem Quer Ser Milionário"
+6. O jogador com mais respostas corretas ganha as apostas
+
+### Saque de Prêmios:
+1. Acesse seu perfil e selecione "Sacar Prêmios"
+2. Escolha o método de saque (dinheiro real, cripto ou skins)
+3. Siga as instruções para completar a transação
+
+## 💻 Requisitos do Sistema
+
+### Web (Navegador):
+- Chrome 70+, Firefox 63+, Safari 12+, Edge 79+
+- Conexão estável à internet
+- JavaScript habilitado
+- Conta Steam ativa
+
+### Aplicativo Móvel (Futuro):
+- Android 8.0+ ou iOS 13+
+- 100MB de espaço disponível
+- Conexão à internet
+- Conta Steam vinculada
 
 ## ⌨️ Atalhos de Teclado
 
 - **1-4**: Selecionar resposta (A-D)
+- **Enter**: Confirmar resposta
+- **Esc**: Sair do quiz (com confirmação)
+
+## 🔒 Segurança e Conformidade
+
+- **Verificação de Idade**: Conformidade com leis de apostas
+- **Termos de Serviço**: Políticas claras sobre apostas e prêmios
+- **Proteção de Dados**: Conformidade com GDPR e outras regulamentações
+- **Jogo Responsável**: Ferramentas para limitar apostas e tempo de jogo
+- **Transações Seguras**: Criptografia de ponta a ponta para pagamentos
+
+## 🚀 Desenvolvimento
+
+### Instalação
+
+```bash
+# Clonar o repositório
+git clone https://github.com/seu-usuario/cs2-quiz-platform.git
+
+# Instalar dependências do frontend
+cd cs2-quiz-platform
+npm install
+
+# Instalar dependências do backend
+cd cs2-quiz-platform
+npm install
+
+# Configurar variáveis de ambiente
+cp .env.example .env
+# Edite o arquivo .env com suas configurações
+
+# Iniciar servidor de desenvolvimento
+npm run dev
+```
+
+### Contribuição
+
+Contribuições são bem-vindas! Para contribuir:
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Faça commit das suas mudanças (`git commit -m 'Adiciona nova feature'`)
+4. Faça push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
+
+## 📝 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo LICENSE para detalhes.
+
+## ⚠️ Aviso Legal
+
+Este projeto é apenas para fins educacionais e de entretenimento. O uso real de sistemas de apostas pode estar sujeito a regulamentações locais. Os usuários são responsáveis por verificar a legalidade antes de implementar ou usar este sistema em um ambiente de produção.
 - **Enter/Espaço**: Próxima pergunta
 - **Escape**: Sair do quiz (com confirmação)
 - **R**: Reiniciar quiz (na tela de resultados)

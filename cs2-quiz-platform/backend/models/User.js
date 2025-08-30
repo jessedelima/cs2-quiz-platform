@@ -4,9 +4,12 @@ class User {
     constructor(data) {
         this.id = data.id;
         this.steam_id = data.steam_id;
+        this.google_id = data.google_id;
         this.username = data.username;
         this.avatar = data.avatar;
         this.profile_url = data.profile_url;
+        this.email = data.email;
+        this.provider = data.provider || 'steam';
         this.balance = data.balance || 0.0;
         this.total_games = data.total_games || 0;
         this.total_wins = data.total_wins || 0;
@@ -16,26 +19,61 @@ class User {
     }
 
     // Criar ou atualizar usuário
-    static async createOrUpdate(steamData) {
+    static async createOrUpdate(profileData) {
         try {
-            const existingUser = await this.findBySteamId(steamData.id);
+            let existingUser = null;
+            const provider = profileData.provider || 'steam';
+            
+            if (provider === 'steam') {
+                existingUser = await this.findBySteamId(profileData.id);
+            } else if (provider === 'google') {
+                existingUser = await this.findByGoogleId(profileData.id);
+            }
+            
+            // Obter dados do perfil com base no provedor
+            const username = profileData.displayName;
+            const avatar = provider === 'steam' ? profileData.photos[0].value : 
+                          (profileData.photos && profileData.photos.length > 0 ? profileData.photos[0].value : null);
+            const profileUrl = provider === 'steam' ? profileData.profileUrl : 
+                             (profileData._json && profileData._json.url ? profileData._json.url : null);
+            const email = provider === 'google' && profileData.emails && profileData.emails.length > 0 ? 
+                         profileData.emails[0].value : null;
             
             if (existingUser) {
                 // Atualizar dados do usuário existente
-                await database.run(
-                    `UPDATE users SET 
-                     username = ?, avatar = ?, profile_url = ?, updated_at = CURRENT_TIMESTAMP 
-                     WHERE steam_id = ?`,
-                    [steamData.displayName, steamData.photos[0].value, steamData.profileUrl, steamData.id]
-                );
-                return await this.findBySteamId(steamData.id);
+                if (provider === 'steam') {
+                    await database.run(
+                        `UPDATE users SET 
+                         username = ?, avatar = ?, profile_url = ?, updated_at = CURRENT_TIMESTAMP 
+                         WHERE steam_id = ?`,
+                        [username, avatar, profileUrl, profileData.id]
+                    );
+                    return await this.findBySteamId(profileData.id);
+                } else if (provider === 'google') {
+                    await database.run(
+                        `UPDATE users SET 
+                         username = ?, avatar = ?, profile_url = ?, email = ?, updated_at = CURRENT_TIMESTAMP 
+                         WHERE google_id = ?`,
+                        [username, avatar, profileUrl, email, profileData.id]
+                    );
+                    return await this.findByGoogleId(profileData.id);
+                }
             } else {
                 // Criar novo usuário
-                const result = await database.run(
-                    `INSERT INTO users (steam_id, username, avatar, profile_url) 
-                     VALUES (?, ?, ?, ?)`,
-                    [steamData.id, steamData.displayName, steamData.photos[0].value, steamData.profileUrl]
-                );
+                let result;
+                if (provider === 'steam') {
+                    result = await database.run(
+                        `INSERT INTO users (steam_id, username, avatar, profile_url, provider) 
+                         VALUES (?, ?, ?, ?, ?)`,
+                        [profileData.id, username, avatar, profileUrl, provider]
+                    );
+                } else if (provider === 'google') {
+                    result = await database.run(
+                        `INSERT INTO users (google_id, username, avatar, profile_url, email, provider) 
+                         VALUES (?, ?, ?, ?, ?, ?)`,
+                        [profileData.id, username, avatar, profileUrl, email, provider]
+                    );
+                }
                 return await this.findById(result.id);
             }
         } catch (error) {

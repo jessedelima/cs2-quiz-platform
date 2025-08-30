@@ -8,6 +8,11 @@ router.get('/steam', passport.authenticate('steam', { failureRedirect: '/' }), (
     // Esta função não será chamada, pois o Steam redirecionará
 });
 
+// Rota para iniciar autenticação Google
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
+    // Esta função não será chamada, pois o Google redirecionará
+});
+
 // Rota de retorno do Steam
 router.get('/steam/return', 
     passport.authenticate('steam', { failureRedirect: '/' }),

@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz CS2 - Teste seus conhecimentos sobre Counter-Strike 2</title>
-    <meta name="description" content="Quiz interativo sobre Counter-Strike 2. Teste seus conhecimentos sobre armas, mapas, estratégias e muito mais!">
+    <title>Quiz Counter-Strike</title>
+    <meta name="description" content="Quiz interativo sobre Counter-Strike 2. Teste seus conhecimentos, faça apostas e ganhe prêmios!">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">🎯 Quiz CS2</div>
-            <nav>
+            <div class="logo">🎯 Quiz Counter-Strike</div>
+            <nav class="nav-right">
                 <ul class="nav-menu">
                     <li><a href="#" class="nav-link" onclick="showWelcomeScreen()">Início</a></li>
                     <li><a href="#" class="nav-link" onclick="showRanking()">Ranking</a></li>
                     <li><a href="#" class="nav-link" onclick="showStatistics()">Estatísticas</a></li>
+                    <li><a href="#" class="nav-link steam-login">Login Steam</a></li>
                 </ul>
             </nav>
         </div>
@@ -27,89 +28,108 @@
     <div class="container">
         <!-- Tela de Boas-vindas -->
         <div id="welcomeScreen" class="welcome-screen">
-            <h1 class="welcome-title fade-in">Quiz Counter-Strike 2</h1>
-            <p class="welcome-subtitle fade-in">Teste seus conhecimentos sobre o jogo mais competitivo do mundo!</p>
+            <h1 class="welcome-title fade-in">Quiz Counter-Strike</h1>
+            <p class="welcome-subtitle fade-in">Teste seus conhecimentos, faça apostas e ganhe prêmios!</p>
+            
+            <div class="user-balance">
+                <div class="balance-display">
+                    <span class="balance-icon">💰</span>
+                    <span class="balance-amount">0</span>
+                    <span class="balance-label">Moedas</span>
+                </div>
+                <button class="btn btn-accent" onclick="showDepositModal()">Depositar</button>
+            </div>
             
             <div class="game-modes">
-                <div class="mode-card fade-in" onclick="startQuiz('facil')">
-                    <div class="mode-icon">🟢</div>
-                    <h3 class="mode-title">Modo Fácil</h3>
-                    <p class="mode-description">Perguntas básicas sobre CS2. Ideal para iniciantes.</p>
-                    <button class="btn btn-primary">Começar</button>
+                <div class="mode-card fade-in" onclick="createLobby()">
+                    <div class="mode-icon">🏆</div>
+                    <h3 class="mode-title">Criar Lobby</h3>
+                    <p class="mode-description">Crie seu próprio lobby e convide amigos para competir.</p>
+                    <button class="btn btn-primary">Criar</button>
                 </div>
                 
-                <div class="mode-card fade-in" onclick="startQuiz('medio')">
-                    <div class="mode-icon">🟡</div>
-                    <h3 class="mode-title">Modo Médio</h3>
-                    <p class="mode-description">Desafios intermediários para jogadores experientes.</p>
-                    <button class="btn btn-primary">Começar</button>
+                <div class="mode-card fade-in" onclick="joinLobby()">
+                    <div class="mode-icon">🔍</div>
+                    <h3 class="mode-title">Entrar em Lobby</h3>
+                    <p class="mode-description">Entre em um lobby existente e compita por prêmios.</p>
+                    <button class="btn btn-primary">Entrar</button>
                 </div>
                 
-                <div class="mode-card fade-in" onclick="startQuiz('dificil')">
-                    <div class="mode-icon">🔴</div>
-                    <h3 class="mode-title">Modo Difícil</h3>
-                    <p class="mode-description">Para verdadeiros especialistas em CS2.</p>
-                    <button class="btn btn-primary">Começar</button>
+                <div class="mode-card fade-in" onclick="showPracticeMode()">
+                    <div class="mode-icon">🎯</div>
+                    <h3 class="mode-title">Modo Prática</h3>
+                    <p class="mode-description">Treine suas habilidades sem apostar moedas.</p>
+                    <button class="btn btn-primary">Praticar</button>
                 </div>
                 
-                <div class="mode-card fade-in" onclick="startQuiz('competitivo')">
-                    <div class="mode-icon">💎</div>
-                    <h3 class="mode-title">Modo Competitivo</h3>
-                    <p class="mode-description">Perguntas sobre estratégias profissionais e meta atual.</p>
-                    <button class="btn btn-primary">Começar</button>
+                <div class="mode-card fade-in" onclick="showLeaderboards()">
+                    <div class="mode-icon">📊</div>
+                    <h3 class="mode-title">Classificação</h3>
+                    <p class="mode-description">Veja os melhores jogadores e maiores prêmios.</p>
+                    <button class="btn btn-primary">Ver</button>
                 </div>
                 
-                <div class="mode-card fade-in" onclick="openMultiplayer()">
-                    <div class="mode-icon">🎮</div>
-                    <h3 class="mode-title">Modo Multiplayer</h3>
-                    <p class="mode-description">Jogue com amigos localmente. Até 4 jogadores!</p>
-                    <button class="btn btn-primary">Jogar</button>
+                <div class="mode-card fade-in" onclick="showShop()">
+                    <div class="mode-icon">🛒</div>
+                    <h3 class="mode-title">Loja</h3>
+                    <p class="mode-description">Troque suas moedas por skins e outros prêmios.</p>
+                    <button class="btn btn-primary">Comprar</button>
                 </div>
             </div>
 
-            <div class="player-setup">
-                <h3>Configurações do Jogador</h3>
-                <div style="margin: 2rem 0;">
-                    <label for="playerName" style="display: block; margin-bottom: 0.5rem;">Nome do Jogador:</label>
-                    <input type="text" id="playerName" placeholder="Digite seu nome" 
-                           style="padding: 0.75rem; border-radius: 0.5rem; border: 2px solid var(--cs2-orange); 
-                                  background: rgba(255,255,255,0.1); color: white; font-size: 1rem; width: 300px; max-width: 100%;">
+            <div class="login-prompt" id="loginPrompt">
+                <h3>Conecte-se para jogar</h3>
+                <p>Faça login para salvar seu progresso, participar de lobbies e ganhar prêmios reais!</p>
+                <div class="login-buttons">
+                    <a href="/api/auth/steam" class="btn btn-steam">
+                        <img src="img/steam-icon.png" alt="Steam" class="steam-icon">
+                        Login com Steam
+                    </a>
+                    <a href="/api/auth/google" class="btn btn-google">
+                        <img src="img/google-icon.png" alt="Google" class="google-icon">
+                        Login com Google
+                    </a>
                 </div>
             </div>
         </div>
 
         <!-- Container do Quiz -->
-        <div id="quizContainer" class="quiz-container hidden">
+        <div id="quizContainer" class="quiz-container millionaire-style hidden">
             <!-- Header do Quiz -->
-            <div class="quiz-header">
+            <div class="quiz-header millionaire-header">
                 <div class="quiz-progress">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                        <span>Progresso</span>
-                        <span id="questionCounter">1/10</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div id="progressFill" class="progress-fill" style="width: 10%;"></div>
+                    <div class="prize-ladder">
+                        <div class="prize-level current" id="currentPrizeLevel">R$ 1.000.000</div>
+                        <div class="prize-level">R$ 500.000</div>
+                        <div class="prize-level">R$ 250.000</div>
+                        <div class="prize-level">R$ 100.000</div>
+                        <div class="prize-level">R$ 50.000</div>
+                        <div class="prize-level milestone">R$ 25.000</div>
+                        <div class="prize-level">R$ 10.000</div>
+                        <div class="prize-level">R$ 5.000</div>
+                        <div class="prize-level">R$ 1.000</div>
+                        <div class="prize-level milestone">R$ 500</div>
                     </div>
                 </div>
                 
-                <div class="quiz-stats">
+                <div class="quiz-stats millionaire-stats">
                     <div class="stat-item">
-                        <span id="currentScore" class="stat-value">0</span>
-                        <span class="stat-label">Pontos</span>
+                        <span id="questionCounter" class="stat-value">1/10</span>
+                        <span class="stat-label">Pergunta</span>
                     </div>
                     <div class="stat-item">
-                        <span id="correctAnswers" class="stat-value">0</span>
-                        <span class="stat-label">Acertos</span>
+                        <span id="potValue" class="stat-value">0</span>
+                        <span class="stat-label">Prêmio Total</span>
                     </div>
                     <div class="stat-item">
-                        <span id="currentStreak" class="stat-value">0</span>
-                        <span class="stat-label">Sequência</span>
+                        <span id="playerCount" class="stat-value">0</span>
+                        <span class="stat-label">Jogadores</span>
                     </div>
                 </div>
             </div>
 
             <!-- Timer -->
-            <div class="timer">
+            <div class="timer millionaire-timer">
                 <div id="timerCircle" class="timer-circle">
                     <span id="timerValue" class="timer-value">30</span>
                 </div>
@@ -117,16 +137,40 @@
             </div>
 
             <!-- Pergunta -->
-            <div id="questionCard" class="question-card">
-                <span id="questionCategory" class="question-category">Categoria</span>
+            <div id="questionCard" class="question-card millionaire-question">
+                <div class="question-header">
+                    <span id="questionDifficulty" class="question-difficulty">Nível 1</span>
+                    <span id="questionCategory" class="question-category">Categoria</span>
+                </div>
+                
                 <h2 id="questionText" class="question-text">Carregando pergunta...</h2>
                 <img id="questionImage" class="question-image hidden" src="" alt="Imagem da pergunta">
                 
-                <div id="answersGrid" class="answers-grid">
-                    <!-- Opções de resposta serão inseridas aqui via JavaScript -->
+                <div id="answersGrid" class="answers-grid millionaire-answers">
+                    <!-- Opções de resposta serão inseridas aqui via JavaScript no formato:
+                    <div class="answer-option">
+                        <span class="answer-letter">A</span>
+                        <span class="answer-text">Resposta 1</span>
+                    </div>
+                    -->
                 </div>
                 
-                <div style="text-align: center; margin-top: 2rem;">
+                <div class="lifelines">
+                    <button class="lifeline" id="fiftyFifty" title="Eliminar duas respostas incorretas">
+                        <span>50:50</span>
+                    </button>
+                    <button class="lifeline" id="askAudience" title="Perguntar à audiência">
+                        <span>👥</span>
+                    </button>
+                    <button class="lifeline" id="phoneCall" title="Ligar para um amigo">
+                        <span>📞</span>
+                    </button>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button id="walkAwayButton" class="btn btn-secondary" onclick="walkAway()">
+                        Parar Aqui
+                    </button>
                     <button id="nextButton" class="btn btn-primary hidden" onclick="nextQuestion()">
                         Próxima Pergunta
                     </button>
@@ -138,89 +182,184 @@
         </div>
 
         <!-- Tela de Resultados -->
-        <div id="resultsScreen" class="results-screen hidden">
+        <div id="resultsScreen" class="results-screen millionaire-results hidden">
             <div class="results-card">
                 <h2 class="results-title">Quiz Finalizado!</h2>
-                <div id="finalScore" class="results-score">0/10</div>
+                
+                <div class="prize-announcement">
+                    <div class="prize-icon">💰</div>
+                    <div id="prizeAmount" class="prize-amount">R$ 0</div>
+                    <div class="prize-label">Seu Prêmio</div>
+                </div>
                 
                 <div class="results-stats">
                     <div class="result-stat">
-                        <h4>Pontuação Total</h4>
-                        <p id="totalPoints">0 pontos</p>
+                        <h4>Perguntas Respondidas</h4>
+                        <p id="questionsAnswered">0/10</p>
                     </div>
                     <div class="result-stat">
-                        <h4>Precisão</h4>
-                        <p id="accuracy">0%</p>
+                        <h4>Nível Alcançado</h4>
+                        <p id="levelReached">0</p>
                     </div>
                     <div class="result-stat">
-                        <h4>Tempo Médio</h4>
-                        <p id="averageTime">0s</p>
+                        <h4>Tempo Total</h4>
+                        <p id="totalTime">0s</p>
                     </div>
                     <div class="result-stat">
-                        <h4>Melhor Sequência</h4>
-                        <p id="bestStreak">0</p>
+                        <h4>Ajudas Usadas</h4>
+                        <p id="lifelinesUsed">0/3</p>
                     </div>
                 </div>
 
-                <div id="performanceMessage" style="margin: 2rem 0; font-size: 1.1rem;"></div>
+                <div id="performanceMessage" class="performance-message"></div>
                 
-                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn btn-primary" onclick="restartQuiz()">Jogar Novamente</button>
+                <div class="lobby-results">
+                    <h3>Resultados do Lobby</h3>
+                    <div id="lobbyResultsList" class="lobby-results-list">
+                        <!-- Resultados do lobby serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="results-actions">
+                    <button class="btn btn-primary" onclick="collectPrize()">Coletar Prêmio</button>
+                    <button class="btn btn-secondary" onclick="joinNewLobby()">Novo Lobby</button>
                     <button class="btn btn-secondary" onclick="showWelcomeScreen()">Menu Principal</button>
-                    <button class="btn btn-secondary" onclick="shareResults()">Compartilhar</button>
+                    <button class="btn btn-share" onclick="shareResults()">
+                        <span class="share-icon">📢</span> Compartilhar
+                    </button>
                 </div>
             </div>
         </div>
 
         <!-- Tela de Ranking -->
-        <div id="rankingScreen" class="hidden">
-            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--cs2-orange);">🏆 Ranking dos Melhores</h2>
-            
-            <div class="ranking-table">
-                <div class="ranking-header">
-                    <div class="ranking-row">
-                        <div>Pos.</div>
-                        <div>Jogador</div>
-                        <div>Pontos</div>
-                        <div>Precisão</div>
-                    </div>
+        <div id="rankingScreen" class="ranking-screen millionaire-ranking hidden">
+            <div class="ranking-card">
+                <h2 class="ranking-title">🏆 Hall da Fama 🏆</h2>
+                <div class="ranking-filters">
+                    <select id="rankingPeriod" class="ranking-select">
+                        <option value="daily">Hoje</option>
+                        <option value="weekly">Esta Semana</option>
+                        <option value="monthly">Este Mês</option>
+                        <option value="alltime">Todos os Tempos</option>
+                    </select>
+                    <select id="rankingCategory" class="ranking-select">
+                        <option value="earnings">Maiores Ganhos</option>
+                        <option value="winrate">Melhor Taxa de Vitória</option>
+                        <option value="correct">Mais Respostas Corretas</option>
+                        <option value="bets">Maiores Apostas</option>
+                    </select>
                 </div>
-                <div id="rankingList">
-                    <!-- Ranking será preenchido via JavaScript -->
+                <div class="ranking-list-container">
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Jogador</th>
+                                <th>Ganhos Totais</th>
+                                <th>Taxa de Vitória</th>
+                                <th>Maior Prêmio</th>
+                                <th>Lobbies</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingList">
+                            <!-- Ranking será inserido aqui via JavaScript -->
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <button class="btn btn-secondary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
+                <div class="ranking-actions">
+                    <button class="btn btn-primary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
+                    <button class="btn btn-secondary" onclick="showMyRank()">Minha Posição</button>
+                    <button class="btn btn-secondary" onclick="exportRanking()">Exportar Ranking</button>
+                </div>
             </div>
         </div>
 
         <!-- Tela de Estatísticas -->
-        <div id="statisticsScreen" class="hidden">
-            <h2 style="text-align: center; margin-bottom: 2rem; color: var(--cs2-orange);">📊 Suas Estatísticas</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-                <div class="result-stat">
-                    <h4>Total de Jogos</h4>
-                    <p id="totalGames">0</p>
+        <div id="statisticsScreen" class="stats-screen millionaire-stats hidden">
+            <div class="stats-card">
+                <h2 class="stats-title">Seu Histórico de Apostas</h2>
+                
+                <div class="stats-overview">
+                    <div class="stat-item">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="statTotalEarnings">R$ 0</div>
+                        <div class="stat-label">Ganhos Totais</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🎮</div>
+                        <div class="stat-value" id="statTotalLobbies">0</div>
+                        <div class="stat-label">Lobbies Jogados</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🏆</div>
+                        <div class="stat-value" id="statWinRate">0%</div>
+                        <div class="stat-label">Taxa de Vitória</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value" id="statCorrectAnswers">0%</div>
+                        <div class="stat-label">Respostas Corretas</div>
+                    </div>
                 </div>
-                <div class="result-stat">
-                    <h4>Melhor Pontuação</h4>
-                    <p id="bestScore">0</p>
+
+                <div class="stats-details">
+                    <div class="stats-section">
+                        <h3>Histórico Financeiro</h3>
+                        <div class="financial-stats">
+                            <div class="financial-stat">
+                                <span>Maior Prêmio:</span>
+                                <span id="statBiggestWin">R$ 0</span>
+                            </div>
+                            <div class="financial-stat">
+                                <span>Maior Aposta:</span>
+                                <span id="statBiggestBet">R$ 0</span>
+                            </div>
+                            <div class="financial-stat">
+                                <span>Total Apostado:</span>
+                                <span id="statTotalBet">R$ 0</span>
+                            </div>
+                            <div class="financial-stat">
+                                <span>Lucro Líquido:</span>
+                                <span id="statNetProfit">R$ 0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-charts">
+                        <div class="stats-chart">
+                            <h3>Histórico de Ganhos</h3>
+                            <canvas id="earningsChart"></canvas>
+                        </div>
+                        <div class="stats-chart">
+                            <h3>Desempenho por Nível</h3>
+                            <canvas id="levelPerformanceChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-section">
+                        <h3>Uso de Ajudas</h3>
+                        <div class="lifelines-stats">
+                            <div class="lifeline-stat">
+                                <span>50:50:</span>
+                                <span id="stat5050">0 vezes</span>
+                            </div>
+                            <div class="lifeline-stat">
+                                <span>Ajuda da Plateia:</span>
+                                <span id="statAudience">0 vezes</span>
+                            </div>
+                            <div class="lifeline-stat">
+                                <span>Ligação:</span>
+                                <span id="statPhoneCall">0 vezes</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="result-stat">
-                    <h4>Precisão Geral</h4>
-                    <p id="overallAccuracy">0%</p>
+                
+                <div class="stats-actions">
+                    <button class="btn btn-primary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
+                    <button class="btn btn-secondary" onclick="exportStats()">Exportar Histórico</button>
+                    <button class="btn btn-danger" onclick="confirmResetStats()">Limpar Histórico</button>
                 </div>
-                <div class="result-stat">
-                    <h4>Categoria Favorita</h4>
-                    <p id="favoriteCategory">-</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <button class="btn btn-secondary" onclick="showWelcomeScreen()">Voltar ao Menu</button>
-                <button class="btn btn-secondary" onclick="resetStatistics()" style="margin-left: 1rem;">Resetar Dados</button>
             </div>
         </div>
     </div>
@@ -260,8 +399,9 @@
 
     <!-- Scripts -->
     <script src="js/questions.js"></script>
-    <script src="js/quiz.js"></script>
     <script src="js/storage.js"></script>
+    <script src="js/quiz.js"></script>
+    
     <script src="js/multiplayer.js"></script>
     <script src="js/main.js"></script>
 </body>

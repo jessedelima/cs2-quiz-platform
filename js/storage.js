@@ -405,7 +405,6 @@ class QuizStorage {
         });
     }
 }
-
 // Instância global do storage
 const quizStorage = new QuizStorage();
 

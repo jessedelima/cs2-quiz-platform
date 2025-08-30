@@ -19,9 +19,6 @@ function initializeApp() {
     // Configurar eventos
     setupEventListeners();
     
-    // Carregar nome do jogador salvo
-    loadPlayerName();
-    
     // Mostrar estatísticas do banco de perguntas
     displayQuestionStats();
     
@@ -44,9 +41,6 @@ function setupEventListeners() {
     
     // Configurar modal de configurações
     setupSettingsModal();
-    
-    // Configurar input do nome do jogador
-    setupPlayerNameInput();
 }
 
 // Gerenciar teclas de atalho
@@ -164,13 +158,7 @@ function loadSettings() {
     }
 }
 
-// Carregar nome do jogador
-function loadPlayerName() {
-    const stats = quizStorage.getPlayerStats();
-    if (stats.name) {
-        document.getElementById('playerName').value = stats.name;
-    }
-}
+
 
 // Mostrar estatísticas do banco de perguntas
 function displayQuestionStats() {

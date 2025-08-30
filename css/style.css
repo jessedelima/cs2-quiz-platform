@@ -11,22 +11,36 @@
     /* Cores do CS2 */
     --cs2-orange: #ff6b35;
     --cs2-blue: #1e3a8a;
-    --cs2-dark: #0f172a;
-    --cs2-gray: #334155;
+    --cs2-dark: #1a2942; /* Cor escura mais clara */
+    --cs2-gray: #4a5a73; /* Cinza mais claro */
     --cs2-light: #f8fafc;
     --cs2-accent: #fbbf24;
     --cs2-success: #10b981;
     --cs2-error: #ef4444;
     
+    /* Cores do Quiz Counter-Strike */
+    --millionaire-blue: #1a4b8f; /* Azul mais claro */
+    --millionaire-blue-light: #2a5ca0; /* Azul claro mais claro */
+    --millionaire-gold: #FFD700;
+    --millionaire-gold-light: #FFDF4D;
+    --millionaire-purple: #6a1b9a; /* Roxo mais claro */
+    --millionaire-purple-light: #8a2be2; /* Roxo claro mais claro */
+    --millionaire-green: #008000;
+    --millionaire-red: #CC0000;
+    
     /* Gradientes */
     --gradient-primary: linear-gradient(135deg, var(--cs2-orange), var(--cs2-blue));
     --gradient-dark: linear-gradient(135deg, var(--cs2-dark), var(--cs2-gray));
+    --millionaire-gradient: linear-gradient(135deg, var(--millionaire-blue), var(--millionaire-purple));
+    --millionaire-gold-gradient: linear-gradient(135deg, var(--millionaire-gold), #FFA500);
     
     /* Sombras */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    --millionaire-shadow: 0 4px 20px rgba(13, 43, 94, 0.4);
+    --millionaire-gold-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
     
     /* Transições */
     --transition-fast: 0.15s ease-in-out;
@@ -71,12 +85,14 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    flex-shrink: 0;
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
     gap: 2rem;
+    justify-content: flex-end;
 }
 
 .nav-link {
@@ -118,7 +134,7 @@ body {
 
 .welcome-subtitle {
     font-size: 1.25rem;
-    color: var(--cs2-gray);
+    color: var(--cs2-light); /* Texto mais claro para melhor legibilidade */
     margin-bottom: 3rem;
 }
 
@@ -130,14 +146,15 @@ body {
 }
 
 .mode-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1); /* Fundo um pouco mais claro */
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda mais visível */
     border-radius: 1rem;
     padding: 2rem;
     text-align: center;
     transition: var(--transition-normal);
     cursor: pointer;
+    box-shadow: var(--shadow-md); /* Adiciona sombra para destacar */
 }
 
 .mode-card:hover {
@@ -159,8 +176,9 @@ body {
 }
 
 .mode-description {
-    color: var(--cs2-gray);
+    color: var(--cs2-light); /* Texto mais claro para melhor legibilidade */
     margin-bottom: 1.5rem;
+    font-weight: 500; /* Texto um pouco mais forte */
 }
 
 /* ===== BOTÕES ===== */
@@ -203,8 +221,132 @@ body {
 /* ===== ÁREA DO QUIZ ===== */
 .quiz-container {
     display: none;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
+    position: relative;
+}
+
+/* Estilo para o fundo do quiz */
+.millionaire-quiz-bg {
+    background: var(--millionaire-gradient);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+/* Estilo para a escada de prêmios */
+.prize-ladder {
+    position: absolute;
+    right: -220px;
+    top: 0;
+    width: 200px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    border: 1px solid var(--millionaire-gold-light);
+}
+
+.prize-ladder-title {
+    color: var(--millionaire-gold);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.prize-step {
+    padding: 0.5rem;
+    margin-bottom: 0.25rem;
+    border-radius: 0.25rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+}
+
+.prize-step.current {
+    background: var(--millionaire-gold);
+    color: var(--millionaire-blue);
+    font-weight: bold;
+}
+
+.prize-step.completed {
+    background: var(--millionaire-green);
+    color: white;
+}
+
+.prize-step.safe-point {
+    border-left: 3px solid var(--millionaire-gold);
+    font-weight: bold;
+}
+
+/* Estilos para os botões de ajuda (lifelines) */
+.lifelines {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+
+.lifeline-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--millionaire-blue-light);
+    border: 2px solid var(--millionaire-gold);
+    color: var(--millionaire-gold);
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.lifeline-btn:hover {
+    transform: scale(1.1);
+    box-shadow: var(--millionaire-gold-shadow);
+}
+
+.lifeline-btn.used {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+}
+
+/* Estilo para as opções de resposta */
+.millionaire-answer {
+    background: var(--millionaire-blue-light);
+    border: 2px solid var(--millionaire-gold-light);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.millionaire-answer:hover {
+    background: var(--millionaire-blue);
+    border-color: var(--millionaire-gold);
+    box-shadow: var(--millionaire-gold-shadow);
+}
+
+.millionaire-answer.selected {
+    background: var(--millionaire-gold-gradient);
+    color: var(--millionaire-blue);
+    font-weight: bold;
+}
+
+.millionaire-answer.correct {
+    background: var(--millionaire-green);
+    border-color: var(--millionaire-gold);
+    color: white;
+}
+
+.millionaire-answer.incorrect {
+    background: var(--millionaire-red);
+    border-color: var(--millionaire-gold-light);
+    color: white;
 }
 
 .quiz-header {
@@ -383,20 +525,100 @@ body {
     padding: 2rem;
 }
 
+.millionaire-results {
+    background: var(--millionaire-gradient);
+}
+
 .results-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 1rem;
     padding: 3rem;
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
+    border: 2px solid var(--millionaire-gold);
+    box-shadow: var(--millionaire-shadow);
 }
 
 .results-title {
     font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--millionaire-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.prize-announcement {
+    margin: 2rem 0;
+    animation: pulse 2s infinite;
+}
+
+.prize-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.prize-amount {
+    font-size: 3.5rem;
+    font-weight: bold;
+    background: var(--millionaire-gold-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    text-shadow: var(--millionaire-gold-shadow);
+}
+
+.prize-label {
+    font-size: 1.25rem;
+    color: var(--cs2-light);
+    opacity: 0.8;
+}
+
+.performance-message {
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    color: var(--cs2-light);
+    font-style: italic;
+}
+
+.lobby-results {
+    margin: 2rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.lobby-results h3 {
+    color: var(--millionaire-gold-light);
     margin-bottom: 1rem;
-    color: var(--cs2-orange);
+}
+
+.lobby-results-list {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.results-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-share {
+    background: #1DA1F2;
+    color: white;
+}
+
+.btn-share:hover {
+    background: #0d8ecf;
+    transform: translateY(-2px);
+}
+
+.share-icon {
+    margin-right: 0.5rem;
 }
 
 .results-score {
@@ -423,32 +645,477 @@ body {
 }
 
 /* ===== RANKING ===== */
-.ranking-table {
-    background: rgba(255, 255, 255, 0.05);
+.millionaire-ranking {
+    background: var(--millionaire-gradient);
+    padding: 2rem;
+}
+
+.ranking-card {
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     border-radius: 1rem;
-    overflow: hidden;
-    margin-top: 2rem;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    border: 2px solid var(--millionaire-gold);
+    box-shadow: var(--millionaire-shadow);
 }
 
-.ranking-header {
-    background: var(--cs2-orange);
-    padding: 1rem;
+.ranking-title {
+    font-size: 2.5rem;
     font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--millionaire-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    text-align: center;
 }
 
-.ranking-row {
-    display: grid;
-    grid-template-columns: 60px 1fr 100px 120px;
+.ranking-filters {
+    display: flex;
     gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.ranking-select {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--cs2-light);
+    border: 1px solid var(--millionaire-gold-light);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.ranking-select:focus {
+    border-color: var(--millionaire-gold);
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+}
+
+.ranking-list-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.ranking-table thead {
+    background: var(--millionaire-blue);
+    color: var(--millionaire-gold);
+}
+
+.ranking-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid var(--millionaire-gold-light);
+}
+
+.ranking-table td {
     padding: 1rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    align-items: center;
+}
+
+.ranking-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .ranking-position {
     font-weight: bold;
-    color: var(--cs2-orange);
+    color: var(--millionaire-gold);
+}
+
+.ranking-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    .header-content {
+        padding: 0 1rem;
+    }
+    
+    .nav-menu {
+        gap: 1rem;
+    }
+    
+    .container {
+        padding: 6rem 1rem 2rem;
+    }
+    
+    .welcome-title {
+        font-size: 2.5rem;
+    }
+    
+    .game-modes {
+        grid-template-columns: 1fr;
+    }
+    
+    .quiz-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .quiz-stats {
+        gap: 1rem;
+    }
+    
+    .ranking-row {
+        grid-template-columns: 50px 1fr 80px;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .mode-card {
+        padding: 1.5rem;
+    }
+    
+    .question-card {
+        padding: 1.5rem;
+    }
+    
+    .results-card {
+        padding: 2rem;
+    }
+    
+    .results-score {
+        font-size: 3rem;
+    }
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.fade-in {
+    animation: fadeIn var(--transition-slow) ease-out;
+}
+
+.slide-in {
+    animation: slideIn var(--transition-normal) ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ===== LOGIN PROMPT ===== */
+.login-prompt {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-top: 4rem; /* Aumenta o espaçamento para mover mais para baixo */
+    margin-bottom: 2rem;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.login-prompt h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--cs2-light);
+}
+
+.login-prompt p {
+    margin-bottom: 1.5rem;
+    color: var(--cs2-light);
+}
+
+.btn-steam {
+    background: #1b2838;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+
+.btn-steam:hover {
+    background: #2a475e;
+    transform: translateY(-2px);
+}
+
+.steam-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* ===== UTILITÁRIOS ===== */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 0.75rem; }
+.p-4 { padding: 1rem; }
+
+/* Estilo para a área de saldo do usuário */
+.user-balance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 4rem; /* Aumenta o espaçamento para separar do conteúdo abaixo */
+    margin-top: 0.5rem; /* Reduz o espaço acima para mover mais para cima */
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--cs2-accent);
+    box-shadow: var(--shadow-md);
+}
+
+.balance-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.2); /* Fundo mais claro */
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    border: 1px solid var(--cs2-accent); /* Borda destacada */
+}
+
+.balance-icon {
+    font-size: 1.25rem;
+}
+
+.balance-amount {
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: var(--cs2-light);
+}
+
+.balance-label {
+    color: var(--cs2-light);
+    font-size: 0.875rem;
+}
+
+.performance-message {
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    color: var(--cs2-light);
+    font-style: italic;
+}
+
+.lobby-results {
+    margin: 2rem 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.lobby-results h3 {
+    color: var(--millionaire-gold-light);
+    margin-bottom: 1rem;
+}
+
+.lobby-results-list {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.results-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.btn-share {
+    background: #1DA1F2;
+    color: white;
+}
+
+.btn-share:hover {
+    background: #0d8ecf;
+    transform: translateY(-2px);
+}
+
+.share-icon {
+    margin-right: 0.5rem;
+}
+
+.results-score {
+    font-size: 4rem;
+    font-weight: bold;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2rem;
+}
+
+.results-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.result-stat {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+/* ===== RANKING ===== */
+.millionaire-ranking {
+    background: var(--millionaire-gradient);
+    padding: 2rem;
+}
+
+.ranking-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    border: 2px solid var(--millionaire-gold);
+    box-shadow: var(--millionaire-shadow);
+}
+
+.ranking-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: var(--millionaire-gold);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    text-align: center;
+}
+
+.ranking-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.ranking-select {
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--cs2-light);
+    border: 1px solid var(--millionaire-gold-light);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.ranking-select:focus {
+    border-color: var(--millionaire-gold);
+    box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.3);
+}
+
+.ranking-list-container {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.ranking-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.ranking-table thead {
+    background: var(--millionaire-blue);
+    color: var(--millionaire-gold);
+}
+
+.ranking-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid var(--millionaire-gold-light);
+}
+
+.ranking-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ranking-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ranking-position {
+    font-weight: bold;
+    color: var(--millionaire-gold);
+}
+
+.ranking-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
 }
 
 /* ===== RESPONSIVIDADE ===== */
